@@ -1,0 +1,146 @@
+.dash-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.summary-card {
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-left: 4px solid var(--primary);
+}
+
+.summary-card.accent-success {
+  border-left-color: var(--success);
+}
+.summary-card.accent-warning {
+  border-left-color: var(--warning);
+}
+.summary-card.accent-accent {
+  border-left-color: var(--accent);
+}
+.summary-card.accent-danger {
+  border-left-color: var(--danger);
+}
+.summary-card.accent-primary {
+  border-left-color: var(--primary);
+}
+
+.summary-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.summary-value {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.7rem;
+  font-weight: 800;
+}
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.chart-card {
+  padding: 20px;
+}
+
+.chart-card h3 {
+  font-size: 1rem;
+  margin-bottom: 16px;
+}
+
+.chart-card.wide {
+  grid-column: span 2;
+}
+
+@media (max-width: 720px) {
+  .chart-card.wide {
+    grid-column: span 1;
+  }
+}
+
+.recent-card {
+  padding: 20px 24px;
+}
+
+.recent-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.see-all {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.recent-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.recent-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.recent-list li:last-child {
+  border-bottom: none;
+}
+
+.recent-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.recent-title {
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recent-meta {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.recent-badges {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}

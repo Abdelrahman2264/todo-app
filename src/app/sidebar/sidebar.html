@@ -1,0 +1,38 @@
+<aside class="sidebar" [class.collapsed]="ui.collapsed()" [class.mobile-open]="ui.mobileOpen()">
+  <div class="brand">
+    <span class="brand-mark">F</span>
+    @if (!ui.collapsed()) {
+      <span class="brand-name">Flow</span>
+    }
+  </div>
+
+  <nav class="nav">
+    @for (item of navItems; track item.path) {
+      <a
+        [routerLink]="item.path"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: item.path === '/dashboard' }"
+        class="nav-item"
+        (click)="closeOnMobile()"
+      >
+        <span class="nav-icon">{{ item.icon }}</span>
+        @if (!ui.collapsed()) {
+          <span class="nav-label">{{ item.label }}</span>
+          @if (item.isAlert && alertCount() > 0) {
+            <span class="alert-badge">{{ alertCount() }}</span>
+          }
+        }
+      </a>
+    }
+  </nav>
+
+  <div class="sidebar-footer">
+    <button class="mini-theme-toggle" type="button" (click)="theme.toggle()">
+      <span class="swatch swatch-lagoon" [class.active]="theme.theme() === 'lagoon'"></span>
+      <span class="swatch swatch-ember" [class.active]="theme.theme() === 'ember'"></span>
+      @if (!ui.collapsed()) {
+        <span class="theme-label">{{ theme.theme() === 'lagoon' ? 'Lagoon' : 'Ember' }}</span>
+      }
+    </button>
+  </div>
+</aside>

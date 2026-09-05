@@ -1,0 +1,15 @@
+<div class="bars">
+  @for (item of data(); track item.label) {
+    <div class="bar-row">
+      <span class="bar-label">{{ item.label }}</span>
+      <div class="bar-track">
+        <div
+          class="bar-fill"
+          [style.width.%]="(item.value / max()) * 100"
+          [style.background]="item.color"
+        ></div>
+      </div>
+      <span class="bar-value">{{ item.value }}</span>
+    </div>
+  }
+</div>

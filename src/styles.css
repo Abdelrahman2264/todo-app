@@ -1,0 +1,229 @@
+/* ==========================================================================
+   Flow — Global styles & theme system
+   Two themes: "Lagoon" (light, teal + coral) and "Ember" (dark, amber + cyan)
+   ========================================================================== */
+
+:root,
+[data-theme='lagoon'] {
+  --bg: #eff6f4;
+  --bg-elevated: #f7fbfa;
+  --surface: #ffffff;
+  --surface-alt: #e7f2ef;
+  --border: #d7e6e2;
+  --text: #0f2622;
+  --text-muted: #5c766f;
+  --primary: #0e7c7b;
+  --primary-dark: #0a5f5e;
+  --primary-soft: #d5f0ec;
+  --accent: #ff6f4d;
+  --accent-soft: #ffe3da;
+  --success: #299d6f;
+  --success-soft: #d8f3e4;
+  --warning: #d99a1f;
+  --warning-soft: #faedd0;
+  --danger: #e0524f;
+  --danger-soft: #fbe0df;
+  --shadow: 0 8px 24px rgba(15, 55, 50, 0.08);
+  --shadow-sm: 0 2px 8px rgba(15, 55, 50, 0.06);
+  --sidebar-bg: #0f3d3a;
+  --sidebar-text: #d9efec;
+  --sidebar-text-muted: #8fb8b1;
+  --sidebar-active: #0e7c7b;
+  color-scheme: light;
+}
+
+[data-theme='ember'] {
+  --bg: #10141c;
+  --bg-elevated: #151a24;
+  --surface: #1a212d;
+  --surface-alt: #202836;
+  --border: #2b3546;
+  --text: #eef2f8;
+  --text-muted: #94a1b8;
+  --primary: #ffb454;
+  --primary-dark: #e59a34;
+  --primary-soft: rgba(255, 180, 84, 0.16);
+  --accent: #35d6c4;
+  --accent-soft: rgba(53, 214, 196, 0.16);
+  --success: #4bd68b;
+  --success-soft: rgba(75, 214, 139, 0.15);
+  --warning: #ffc857;
+  --warning-soft: rgba(255, 200, 87, 0.15);
+  --danger: #ff6b6b;
+  --danger-soft: rgba(255, 107, 107, 0.15);
+  --shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+  --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.3);
+  --sidebar-bg: #0b0e15;
+  --sidebar-text: #e7ecf5;
+  --sidebar-text-muted: #7e8aa1;
+  --sidebar-active: #ffb454;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: background-color 0.25s ease, color 0.25s ease;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Sora', 'Manrope', sans-serif;
+  margin: 0;
+  color: var(--text);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+}
+
+::selection {
+  background: var(--primary-soft);
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ---------- Shared utility classes ---------- */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  padding: 10px 18px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+}
+.btn-primary:hover {
+  background: var(--primary-dark);
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text);
+}
+.btn-ghost:hover {
+  background: var(--surface-alt);
+}
+
+.btn-danger {
+  background: transparent;
+  border-color: var(--danger);
+  color: var(--danger);
+}
+.btn-danger:hover {
+  background: var(--danger-soft);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.pill-low {
+  background: var(--success-soft);
+  color: var(--success);
+}
+.pill-medium {
+  background: var(--warning-soft);
+  color: var(--warning);
+}
+.pill-high {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.status-pending {
+  background: var(--warning-soft);
+  color: var(--warning);
+}
+.status-in-progress {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.status-completed {
+  background: var(--success-soft);
+  color: var(--success);
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--primary);
+  margin: 0 0 6px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--text-muted);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

@@ -1,0 +1,94 @@
+<div class="list-header">
+  <div>
+    <p class="eyebrow">Task Management</p>
+    <h1>All Tasks</h1>
+  </div>
+  <div style="display: flex; gap: 10px; align-items: center;">
+    @if (tasks().length > 0) {
+      <button class="btn btn-ghost" (click)="taskService.clearAllTasks()">Clear All Tasks</button>
+    }
+    <a routerLink="/tasks/add" class="btn btn-primary">＋ New Task</a>
+  </div>
+</div>
+
+<div class="card filters-bar">
+  <input
+    type="text"
+    class="search-input"
+    placeholder="Search tasks by title or description…"
+    [ngModel]="search()"
+    (ngModelChange)="search.set($event)"
+  />
+
+  <select class="filter-select" [ngModel]="statusFilter()" (ngModelChange)="statusFilter.set($event)">
+    @for (s of statuses; track s) {
+      <option [value]="s">{{ s === 'All' ? 'All statuses' : s }}</option>
+    }
+  </select>
+
+  <select class="filter-select" [ngModel]="priorityFilter()" (ngModelChange)="priorityFilter.set($event)">
+    @for (p of priorities; track p) {
+      <option [value]="p">{{ p === 'All' ? 'All priorities' : p }}</option>
+    }
+  </select>
+
+  <select class="filter-select" [ngModel]="categoryFilter()" (ngModelChange)="categoryFilter.set($event)">
+    @for (c of categories(); track c) {
+      <option [value]="c">{{ c === 'All' ? 'All categories' : c }}</option>
+    }
+  </select>
+
+  @if (hasActiveFilters()) {
+    <button class="btn btn-ghost" type="button" (click)="clearFilters()">Clear</button>
+  }
+</div>
+
+@if (tasks().length === 0) {
+  <div class="card empty-state">
+    <h3>No tasks yet (Starting from 0)</h3>
+    <p>Get started by creating your first task or loading sample data.</p>
+    <div style="display: flex; gap: 12px; justify-content: center; margin-top: 16px;">
+      <a routerLink="/tasks/add" class="btn btn-primary">Add a task</a>
+      <button class="btn btn-ghost" (click)="taskService.loadSampleTasks()">Load Sample Data</button>
+    </div>
+  </div>
+} @else if (filteredTasks().length === 0) {
+  <div class="card empty-state">
+    <h3>No matching tasks</h3>
+    <p>Try adjusting your search or filters.</p>
+  </div>
+} @else {
+  <div class="task-grid">
+    @for (task of filteredTasks(); track task.id) {
+      <article class="card task-card" [class.overdue]="isOverdue(task.dueDate, task.status)">
+        <div class="task-card-top">
+          <span class="pill" [class]="priorityClass(task.priority)">{{ task.priority }}</span>
+          <span class="pill" [class]="statusClass(task.status)">{{ task.status }}</span>
+        </div>
+
+        <h3 class="task-title">{{ task.title }}</h3>
+        <p class="task-desc">{{ task.description }}</p>
+
+        <div class="task-meta">
+          <span class="category-tag">{{ task.category }}</span>
+          @if (task.dueDate) {
+            <span class="due-date">
+              Due {{ task.dueDate | date: 'MMM d, y' }}
+              @if (isOverdue(task.dueDate, task.status)) {
+                <strong class="overdue-tag">Overdue</strong>
+              }
+            </span>
+          }
+        </div>
+
+        <div class="task-actions">
+          <button class="btn btn-ghost" type="button" (click)="toggleComplete(task.id)">
+            {{ task.status === 'Completed' ? '↺ Reopen' : '✓ Complete' }}
+          </button>
+          <a class="btn btn-ghost" [routerLink]="['/tasks/edit', task.id]">Edit</a>
+          <button class="btn btn-danger" type="button" (click)="deleteTask(task.id, task.title)">Delete</button>
+        </div>
+      </article>
+    }
+  </div>
+}

@@ -1,0 +1,31 @@
+<div class="donut-wrap">
+  <svg viewBox="0 0 100 100" class="donut-svg">
+    <circle class="donut-track" cx="50" cy="50" [attr.r]="radius" />
+    @for (slice of rendered(); track slice.label) {
+      <circle
+        class="donut-slice"
+        cx="50"
+        cy="50"
+        [attr.r]="radius"
+        [attr.stroke]="slice.color"
+        [attr.stroke-dasharray]="slice.dashArray"
+        [attr.stroke-dashoffset]="slice.dashOffset"
+      />
+    }
+  </svg>
+
+  <div class="donut-center">
+    <span class="donut-value">{{ centerValue() }}</span>
+    <span class="donut-label">{{ centerLabel() }}</span>
+  </div>
+</div>
+
+<ul class="donut-legend">
+  @for (slice of rendered(); track slice.label) {
+    <li>
+      <span class="dot" [style.background]="slice.color"></span>
+      {{ slice.label }}
+      <strong>{{ slice.value }}</strong>
+    </li>
+  }
+</ul>

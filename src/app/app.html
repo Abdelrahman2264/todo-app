@@ -1,0 +1,48 @@
+<div class="shell" [class.collapsed]="ui.collapsed()">
+  <app-sidebar />
+
+  @if (ui.mobileOpen()) {
+    <div class="backdrop" (click)="ui.closeMobile()"></div>
+  }
+
+  <div class="main">
+    <header class="topbar">
+      <button
+        class="icon-btn hamburger"
+        type="button"
+        aria-label="Toggle navigation"
+        (click)="ui.toggleMobile()"
+      >
+        <span></span><span></span><span></span>
+      </button>
+
+      <button
+        class="icon-btn collapse-btn"
+        type="button"
+        aria-label="Collapse sidebar"
+        (click)="ui.toggleCollapsed()"
+      >
+        ⟨⟩
+      </button>
+
+      <div class="topbar-spacer"></div>
+
+      <button
+        class="theme-toggle"
+        type="button"
+        (click)="theme.toggle()"
+        [attr.aria-label]="theme.theme() === 'lagoon' ? 'Switch to Ember theme' : 'Switch to Lagoon theme'"
+      >
+        @if (theme.theme() === 'lagoon') {
+          <span>🌙</span> Ember
+        } @else {
+          <span>☀️</span> Lagoon
+        }
+      </button>
+    </header>
+
+    <main class="content">
+      <router-outlet />
+    </main>
+  </div>
+</div>

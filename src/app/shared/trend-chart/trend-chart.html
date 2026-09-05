@@ -1,0 +1,17 @@
+<div class="trend">
+  <svg [attr.viewBox]="viewBox" preserveAspectRatio="none" class="trend-svg">
+    <path class="trend-area" [attr.d]="createdArea()" />
+    <path class="trend-line" [attr.d]="completedLine()" />
+  </svg>
+
+  <div class="trend-axis">
+    @for (p of points(); track p.label) {
+      <span>{{ p.label }}</span>
+    }
+  </div>
+
+  <div class="trend-legend">
+    <span><i class="dot dot-created"></i> Created</span>
+    <span><i class="dot dot-completed"></i> Completed</span>
+  </div>
+</div>

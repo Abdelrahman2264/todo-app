@@ -1,0 +1,104 @@
+<div class="dash-header">
+  <div>
+    <p class="eyebrow">Overview</p>
+    <h1>Dashboard</h1>
+    <p class="subtitle">A snapshot of everything on your plate.</p>
+  </div>
+  <div style="display: flex; gap: 10px; align-items: center;">
+    @if (tasks().length > 0) {
+      <button class="btn btn-ghost" (click)="taskService.clearAllTasks()">Start at 0 (Clear All)</button>
+    }
+    <a routerLink="/tasks/add" class="btn btn-primary">＋ New Task</a>
+  </div>
+</div>
+
+@if (tasks().length === 0) {
+  <div class="card empty-state">
+    <div style="font-size: 3rem; margin-bottom: 8px;">📊</div>
+    <h3>No tasks found (Starting from 0)</h3>
+    <p>Create your first task to see interactive Chart.js diagrams and live metrics dynamically update!</p>
+    <div style="display: flex; gap: 12px; justify-content: center; margin-top: 16px;">
+      <a routerLink="/tasks/add" class="btn btn-primary">Add a task</a>
+      <button class="btn btn-ghost" (click)="taskService.loadSampleTasks()">Load Sample Data</button>
+    </div>
+  </div>
+} @else {
+  <section class="summary-grid">
+    <div class="card summary-card">
+      <span class="summary-label">Total Tasks</span>
+      <span class="summary-value">{{ stats().total }}</span>
+    </div>
+    <div class="card summary-card accent-success">
+      <span class="summary-label">Completed</span>
+      <span class="summary-value">{{ stats().completed }}</span>
+    </div>
+    <div class="card summary-card accent-warning">
+      <span class="summary-label">Pending</span>
+      <span class="summary-value">{{ stats().pending }}</span>
+    </div>
+    <div class="card summary-card accent-accent">
+      <span class="summary-label">In Progress</span>
+      <span class="summary-value">{{ stats().inProgress }}</span>
+    </div>
+    <div class="card summary-card accent-danger">
+      <span class="summary-label">Overdue</span>
+      <span class="summary-value">{{ stats().overdue }}</span>
+    </div>
+    <div class="card summary-card accent-primary">
+      <span class="summary-label">Completion Rate</span>
+      <span class="summary-value">{{ stats().completionRate }}%</span>
+    </div>
+  </section>
+
+  <section class="charts-grid">
+    <div class="card chart-card">
+      <h3>Status Breakdown</h3>
+      <app-donut-chart
+        [slices]="statusSlices()"
+        [centerValue]="stats().total.toString()"
+        centerLabel="Tasks"
+      />
+    </div>
+
+    <div class="card chart-card">
+      <h3>By Priority</h3>
+      <app-bar-chart [data]="priorityBars()" />
+    </div>
+
+    <div class="card chart-card wide">
+      <h3>Last 7 Days</h3>
+      <app-trend-chart [points]="stats().last7Days" />
+    </div>
+
+    @if (categoryBars().length > 0) {
+      <div class="card chart-card">
+        <h3>Top Categories</h3>
+        <app-bar-chart [data]="categoryBars()" />
+      </div>
+    }
+  </section>
+
+  <section class="card recent-card">
+    <div class="recent-header">
+      <h3>Recent Activity</h3>
+      <a routerLink="/tasks" class="see-all">See all →</a>
+    </div>
+
+    <ul class="recent-list">
+      @for (task of recentTasks(); track task.id) {
+        <li>
+          <div class="recent-main">
+            <span class="recent-title">{{ task.title }}</span>
+            <span class="recent-meta">
+              {{ task.category }} · Created {{ task.createdAt | date: 'MMM d' }}
+            </span>
+          </div>
+          <div class="recent-badges">
+            <span class="pill" [class]="priorityClass(task.priority)">{{ task.priority }}</span>
+            <span class="pill" [class]="statusClass(task.status)">{{ task.status }}</span>
+          </div>
+        </li>
+      }
+    </ul>
+  </section>
+}

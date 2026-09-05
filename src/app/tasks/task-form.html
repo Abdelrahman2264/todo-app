@@ -1,0 +1,83 @@
+<div class="form-page">
+  <div class="card form-container">
+    <div class="form-header">
+      <div>
+        <p class="eyebrow">Task Management</p>
+        <h1>{{ isEditMode ? 'Edit Task' : 'Add Task' }}</h1>
+        <p>{{ isEditMode ? 'Update the task information.' : 'Create a new task and add it to your list.' }}</p>
+      </div>
+      <a routerLink="/tasks" class="back-link">← Back to Tasks</a>
+    </div>
+
+    <form [formGroup]="taskForm" (ngSubmit)="onSubmit()" novalidate>
+      <div class="form-group">
+        <label for="title">Title *</label>
+        <input id="title" type="text" formControlName="title" placeholder="Enter task title" />
+        @if (title.touched && title.hasError('required')) {
+          <small class="error">Title is required.</small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description *</label>
+        <textarea id="description" formControlName="description" rows="5" placeholder="Enter task description"></textarea>
+        @if (description.touched && description.hasError('required')) {
+          <small class="error">Description is required.</small>
+        }
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="status">Status *</label>
+          <select id="status" formControlName="status">
+            @for (item of statuses; track item) {
+              <option [value]="item">{{ item }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="priority">Priority *</label>
+          <select id="priority" formControlName="priority">
+            @for (item of priorities; track item) {
+              <option [value]="item">{{ item }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="category">Category *</label>
+          <input
+            id="category"
+            type="text"
+            formControlName="category"
+            list="category-suggestions"
+            placeholder="e.g. Development, Design…"
+          />
+          <datalist id="category-suggestions">
+            @for (c of existingCategories; track c) {
+              <option [value]="c"></option>
+            }
+          </datalist>
+          @if (category.touched && category.hasError('required')) {
+            <small class="error">Category is required.</small>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="dueDate">Due Date</label>
+          <input id="dueDate" type="date" formControlName="dueDate" />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <a routerLink="/tasks" class="btn btn-ghost">Cancel</a>
+        <button type="submit" class="btn btn-primary">
+          {{ isEditMode ? 'Update Task' : 'Add Task' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,143 @@
+<div class="alerts-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Attention Required</p>
+      <h1>Task Alerts & Long Tasks</h1>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-ghost" (click)="taskService.clearAllTasks()">Clear All Tasks</button>
+      <button class="btn btn-primary" (click)="taskService.loadSampleTasks()">Load Sample Data</button>
+    </div>
+  </header>
+
+  <!-- Metric Summary Cards -->
+  <div class="metrics-grid">
+    <div class="card metric-card">
+      <span class="metric-icon icon-danger">⚠️</span>
+      <div class="metric-info">
+        <span class="metric-value">{{ alerts().length }}</span>
+        <span class="metric-label">Total Active Alerts</span>
+      </div>
+    </div>
+
+    <div class="card metric-card">
+      <span class="metric-icon icon-overdue">⏰</span>
+      <div class="metric-info">
+        <span class="metric-value">{{ overdueCount() }}</span>
+        <span class="metric-label">Overdue Tasks</span>
+      </div>
+    </div>
+
+    <div class="card metric-card">
+      <span class="metric-icon icon-running">⏳</span>
+      <div class="metric-info">
+        <span class="metric-value">{{ longRunningCount() }}</span>
+        <span class="metric-label">Long-Running (>3d)</span>
+      </div>
+    </div>
+
+    <div class="card metric-card">
+      <span class="metric-icon icon-urgent">🔥</span>
+      <div class="metric-info">
+        <span class="metric-value">{{ highPriorityCount() }}</span>
+        <span class="metric-label">High Priority Pending</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter Tabs -->
+  <div class="filters-bar">
+    <button
+      class="filter-tab"
+      [class.active]="selectedFilter() === 'all'"
+      (click)="setFilter('all')"
+    >
+      All Alerts ({{ alerts().length }})
+    </button>
+    <button
+      class="filter-tab"
+      [class.active]="selectedFilter() === 'overdue'"
+      (click)="setFilter('overdue')"
+    >
+      Overdue ({{ overdueCount() }})
+    </button>
+    <button
+      class="filter-tab"
+      [class.active]="selectedFilter() === 'long_running'"
+      (click)="setFilter('long_running')"
+    >
+      Long-Running ({{ longRunningCount() }})
+    </button>
+    <button
+      class="filter-tab"
+      [class.active]="selectedFilter() === 'high_priority_pending'"
+      (click)="setFilter('high_priority_pending')"
+    >
+      High Priority ({{ highPriorityCount() }})
+    </button>
+  </div>
+
+  <!-- Alerts List -->
+  @if (filteredAlerts().length > 0) {
+    <div class="alerts-list">
+      @for (alert of filteredAlerts(); track alert.task.id + '-' + alert.type) {
+        <div class="card alert-card">
+          <div class="alert-header">
+            <span class="alert-type-badge" [class]="badgeClass(alert.type)">
+              {{ alert.title }}
+            </span>
+            <span class="task-category">{{ alert.task.category }}</span>
+          </div>
+
+          <div class="alert-body">
+            <h3 class="task-title">{{ alert.task.title }}</h3>
+            <p class="task-desc">{{ alert.task.description }}</p>
+
+            <div class="alert-details">
+              <span class="detail-item">
+                <strong>Status:</strong> {{ alert.task.status }}
+              </span>
+              <span class="detail-item">
+                <strong>Priority:</strong> {{ alert.task.priority }}
+              </span>
+              <span class="detail-item">
+                <strong>Created:</strong> {{ alert.task.createdAt | date: 'shortDate' }}
+              </span>
+              @if (alert.task.dueDate) {
+                <span class="detail-item">
+                  <strong>Due Date:</strong> {{ alert.task.dueDate }}
+                </span>
+              }
+            </div>
+            <p class="alert-reason">⚡ {{ alert.description }}</p>
+          </div>
+
+          <div class="alert-actions">
+            <button class="btn btn-complete" (click)="completeTask(alert.task.id)">
+              ✓ Mark Complete
+            </button>
+            <button class="btn btn-ghost" (click)="extendDueDate(alert.task.id)">
+              📅 Extend +3 Days
+            </button>
+            <a [routerLink]="['/tasks/edit', alert.task.id]" class="btn btn-ghost">
+              ✏️ Edit Task
+            </a>
+            <button class="btn btn-danger-action" (click)="deleteTask(alert.task.id)">
+              🗑️ Delete
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="card empty-state">
+      <div class="empty-icon">🎉</div>
+      <h2>No Active Alerts</h2>
+      <p>All your tasks are on track! No overdue or stagnant long-running tasks found.</p>
+      <div class="empty-actions">
+        <a routerLink="/tasks/add" class="btn btn-primary">Create New Task</a>
+        <button class="btn btn-ghost" (click)="taskService.loadSampleTasks()">Load Sample Data</button>
+      </div>
+    </div>
+  }
+</div>
