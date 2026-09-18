@@ -171,6 +171,24 @@ export class TaskService {
     return true;
   }
 
+  updateTaskStatus(id: number, newStatus: TaskStatus): boolean {
+    const task = this.getTaskById(id);
+    if (!task) return false;
+    return this.updateTask(id, {
+      title: task.title,
+      description: task.description,
+      status: newStatus,
+      priority: task.priority,
+      category: task.category,
+      dueDate: task.dueDate
+    });
+  }
+
+  reorderTasks(tasks: Task[]): void {
+    this.tasks = [...tasks];
+    this.emit();
+  }
+
   toggleComplete(id: number): void {
     const task = this.getTaskById(id);
     if (!task) return;

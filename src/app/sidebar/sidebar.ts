@@ -24,6 +24,7 @@ export class Sidebar {
   protected readonly navItems = [
     { path: '/dashboard', label: 'Dashboard', icon: '◧' },
     { path: '/tasks', label: 'All Tasks', icon: '☰' },
+    { path: '/board', label: 'Task Board', icon: '▦' },
     { path: '/alerts', label: 'Long Tasks', icon: '⚠️', isAlert: true },
     { path: '/tasks/add', label: 'Add Task', icon: '＋' }
   ];

@@ -1,0 +1,94 @@
+<div class="board-header">
+  <div>
+    <p class="eyebrow">Interactive Kanban</p>
+    <h1>Task Board</h1>
+    <p class="subtitle">Drag and drop tasks between columns to update their status instantly.</p>
+  </div>
+  <div class="header-actions">
+    <a routerLink="/tasks" class="btn btn-ghost">☰ List View</a>
+    <a routerLink="/tasks/add" class="btn btn-primary">＋ New Task</a>
+  </div>
+</div>
+
+<div class="card board-filters">
+  <input
+    type="text"
+    class="search-input"
+    placeholder="Search board tasks…"
+    [ngModel]="search()"
+    (ngModelChange)="search.set($event)"
+  />
+
+  <select class="filter-select" [ngModel]="priorityFilter()" (ngModelChange)="priorityFilter.set($event)">
+    @for (p of priorities; track p) {
+      <option [value]="p">{{ p === 'All' ? 'All priorities' : p }}</option>
+    }
+  </select>
+</div>
+
+<div class="board-container" cdkDropListGroup>
+  @for (col of columns; track col.id) {
+    <div class="board-column">
+      <div class="column-header">
+        <div class="column-title-group">
+          <span class="column-indicator" [class]="col.badgeClass"></span>
+          <h2>{{ col.title }}</h2>
+        </div>
+        <span class="column-count">{{ getTasksByStatus(col.id).length }}</span>
+      </div>
+
+      <div
+        class="column-dropzone"
+        cdkDropList
+        [id]="col.id"
+        [cdkDropListData]="getTasksByStatus(col.id)"
+        (cdkDropListDropped)="onDrop($event)"
+      >
+        @if (getTasksByStatus(col.id).length === 0) {
+          <div class="empty-column-placeholder">
+            <span>Drop tasks here</span>
+          </div>
+        }
+
+        @for (task of getTasksByStatus(col.id); track task.id) {
+          <article
+            class="board-card"
+            cdkDrag
+            [cdkDragData]="task"
+            [class.overdue]="isOverdue(task.dueDate, task.status)"
+          >
+            <div class="card-drag-handle" cdkDragHandle title="Drag task">
+              <span>⋮⋮</span>
+            </div>
+
+            <div class="card-top">
+              <span class="pill" [class]="priorityClass(task.priority)">{{ task.priority }}</span>
+              <span class="category-tag">{{ task.category }}</span>
+            </div>
+
+            <h3 class="card-title">{{ task.title }}</h3>
+            <p class="card-desc">{{ task.description }}</p>
+
+            @if (task.dueDate) {
+              <div class="card-meta">
+                <span class="due-date">
+                  📅 Due {{ task.dueDate | date: 'MMM d' }}
+                  @if (isOverdue(task.dueDate, task.status)) {
+                    <strong class="overdue-tag">Overdue</strong>
+                  }
+                </span>
+              </div>
+            }
+
+            <div class="card-footer">
+              <a class="card-link" [routerLink]="['/tasks/edit', task.id]">Edit</a>
+              <button class="card-delete-btn" type="button" (click)="deleteTask(task.id, task.title)">
+                Delete
+              </button>
+            </div>
+          </article>
+        }
+      </div>
+    </div>
+  }
+</div>
