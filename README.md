@@ -1,29 +1,6 @@
 # Flow — Task Management & To-Do Dashboard
 > A modern, production-grade Angular 21 task dashboard featuring interactive CDK Drag & Drop, Chart.js analytics, dark mode, and smart task alerts.
 
----
-
-## 📌 Prompt for Claude (Copy & Paste to Generate Your Presentation)
-
-> **Instructions for the presenter:**
-> Copy the prompt below and send it to Claude. Claude will create a complete, professional slide deck presentation (including slide titles, visual layout ideas, bullet points, and speaker notes) based on the exact features and technical architecture of this app.
-
-```markdown
-You are an expert technical presenter and software architect.
-I have built an Angular application called "Flow" (a Task Management & To-Do Dashboard).
-Please create a professional, engaging 10-12 slide presentation deck based on the project documentation below.
-
-For each slide, provide:
-1. Slide Title & Subtitle
-2. Recommended Visual / Layout Layout (e.g., side-by-side, 3 columns, metric cards, screenshot placeholder)
-3. Key Content & Bullet Points (clear, concise, presentation-ready)
-4. Speaker Notes (what I should say during the presentation, explaining both business value and technical implementation)
-
-Here is the complete project information:
-[Include the rest of this README below]
-```
-
----
 
 ## 🎯 Executive Summary & Project Purpose
 
